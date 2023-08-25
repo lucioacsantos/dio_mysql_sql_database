@@ -1,14 +1,8 @@
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Table `Cliente`
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
-
--- -----------------------------------------------------
--- Table `mydb`.`Cliente`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Cliente` (
+CREATE TABLE IF NOT EXISTS `Cliente` (
   `idCliente` INT NOT NULL AUTO_INCREMENT,
   `Nome completo` VARCHAR(45) NULL,
   `contato` CHAR(10) NULL,
@@ -19,9 +13,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pedido`
+-- Table `Pedido`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pedido` (
+CREATE TABLE IF NOT EXISTS `Pedido` (
   `idPedido` INT NOT NULL AUTO_INCREMENT,
   `Cliente_idCliente` INT NOT NULL,
   `Descrição` VARCHAR(255) NULL,
@@ -32,16 +26,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pedido` (
   INDEX `fk_Pedido_Cliente2_idx` (`Cliente_idCliente` ASC) VISIBLE,
   CONSTRAINT `fk_Pedido_Cliente2`
     FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `mydb`.`Cliente` (`idCliente`)
+    REFERENCES `Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Produto`
+-- Table `Produto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Produto` (
+CREATE TABLE IF NOT EXISTS `Produto` (
   `idProduto` INT NOT NULL AUTO_INCREMENT,
   `Categoria` VARCHAR(45) NOT NULL,
   `Descrição` VARCHAR(45) NULL,
@@ -51,9 +45,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Fornecedor`
+-- Table `Fornecedor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Fornecedor` (
+CREATE TABLE IF NOT EXISTS `Fornecedor` (
   `idFornecedor` INT NOT NULL,
   `Razão Social` VARCHAR(45) NULL,
   `CNPJ` CHAR(15) NOT NULL,
@@ -64,9 +58,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Produto_fornecedor`
+-- Table `Produto_fornecedor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Produto_fornecedor` (
+CREATE TABLE IF NOT EXISTS `Produto_fornecedor` (
   `Fornecedor_idFornecedor` INT NOT NULL,
   `Produto_idProduto` INT NOT NULL,
   `Quantidade` INT NULL,
@@ -75,21 +69,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Produto_fornecedor` (
   INDEX `fk_Fornecedor_has_Produto_Fornecedor_idx` (`Fornecedor_idFornecedor` ASC) VISIBLE,
   CONSTRAINT `fk_Fornecedor_has_Produto_Fornecedor`
     FOREIGN KEY (`Fornecedor_idFornecedor`)
-    REFERENCES `mydb`.`Fornecedor` (`idFornecedor`)
+    REFERENCES `Fornecedor` (`idFornecedor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Fornecedor_has_Produto_Produto1`
     FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `mydb`.`Produto` (`idProduto`)
+    REFERENCES `Produto` (`idProduto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Estoque`
+-- Table `Estoque`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Estoque` (
+CREATE TABLE IF NOT EXISTS `Estoque` (
   `idEstoque` INT NOT NULL,
   `Local` VARCHAR(45) NOT NULL,
   `Quantidade` INT NOT NULL,
@@ -98,9 +92,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Produto_em_Estoque (localização)`
+-- Table `Produto_em_Estoque (localização)`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Produto_em_Estoque (localização)` (
+CREATE TABLE IF NOT EXISTS `Produto_em_Estoque (localização)` (
   `Produto_idProduto` INT NOT NULL,
   `Estoque_idEstoque` INT NOT NULL,
   `Localização` INT NULL,
@@ -109,21 +103,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Produto_em_Estoque (localização)` (
   INDEX `fk_Produto_has_Estoque_Produto1_idx` (`Produto_idProduto` ASC) VISIBLE,
   CONSTRAINT `fk_Produto_has_Estoque_Produto1`
     FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `mydb`.`Produto` (`idProduto`)
+    REFERENCES `Produto` (`idProduto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Produto_has_Estoque_Estoque1`
     FOREIGN KEY (`Estoque_idEstoque`)
-    REFERENCES `mydb`.`Estoque` (`idEstoque`)
+    REFERENCES `Estoque` (`idEstoque`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Produto/pedido`
+-- Table `Produto/pedido`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Produto/pedido` (
+CREATE TABLE IF NOT EXISTS `Produto/pedido` (
   `Produto_idProduto` INT NOT NULL,
   `Pedido_idPedido` INT NOT NULL,
   `Quantidade` VARCHAR(45) NOT NULL,
@@ -133,21 +127,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Produto/pedido` (
   INDEX `fk_Produto_has_Pedido_Produto1_idx` (`Produto_idProduto` ASC) VISIBLE,
   CONSTRAINT `fk_Produto_has_Pedido_Produto1`
     FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `mydb`.`Produto` (`idProduto`)
+    REFERENCES `Produto` (`idProduto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Produto_has_Pedido_Pedido1`
     FOREIGN KEY (`Pedido_idPedido`)
-    REFERENCES `mydb`.`Pedido` (`idPedido`)
+    REFERENCES `Pedido` (`idPedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Terceiro - Vendedor`
+-- Table `Terceiro - Vendedor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Terceiro - Vendedor` (
+CREATE TABLE IF NOT EXISTS `Terceiro - Vendedor` (
   `idTerceiro - Vendedor` INT NOT NULL AUTO_INCREMENT,
   `Razão Social` VARCHAR(45) NOT NULL COMMENT 'constrain',
   `Local` VARCHAR(45) NULL,
@@ -162,9 +156,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Produtos_vendedor (teceiro)`
+-- Table `Produtos_vendedor (teceiro)`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Produtos_vendedor (teceiro)` (
+CREATE TABLE IF NOT EXISTS `Produtos_vendedor (teceiro)` (
   `idPseller` INT NOT NULL AUTO_INCREMENT,
   `Produto_idProduto` INT NOT NULL,
   `Quantidade` INT NULL,
@@ -173,21 +167,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Produtos_vendedor (teceiro)` (
   INDEX `fk_Terceiro - Vendedor_has_Produto_Terceiro - Vendedor1_idx` (`idPseller` ASC) VISIBLE,
   CONSTRAINT `fk_Terceiro - Vendedor_has_Produto_Terceiro - Vendedor1`
     FOREIGN KEY (`idPseller`)
-    REFERENCES `mydb`.`Terceiro - Vendedor` (`idTerceiro - Vendedor`)
+    REFERENCES `Terceiro - Vendedor` (`idTerceiro - Vendedor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Terceiro - Vendedor_has_Produto_Produto1`
     FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `mydb`.`Produto` (`idProduto`)
+    REFERENCES `Produto` (`idProduto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Cliente`
+-- Table `Cliente`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Cliente` (
+CREATE TABLE IF NOT EXISTS `Cliente` (
   `idCliente` INT NOT NULL AUTO_INCREMENT,
   `Nome completo` VARCHAR(45) NULL,
   `contato` CHAR(10) NULL,
@@ -198,9 +192,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pedido`
+-- Table `Pedido`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pedido` (
+CREATE TABLE IF NOT EXISTS `Pedido` (
   `idPedido` INT NOT NULL AUTO_INCREMENT,
   `Cliente_idCliente` INT NOT NULL,
   `Descrição` VARCHAR(255) NULL,
@@ -211,16 +205,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pedido` (
   INDEX `fk_Pedido_Cliente2_idx` (`Cliente_idCliente` ASC) VISIBLE,
   CONSTRAINT `fk_Pedido_Cliente2`
     FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `mydb`.`Cliente` (`idCliente`)
+    REFERENCES `Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Responsável`
+-- Table `Responsável`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Responsável` (
+CREATE TABLE IF NOT EXISTS `Responsável` (
   `idResponsável` INT NOT NULL,
   `Setor` VARCHAR(45) NULL,
   `Matrícula` VARCHAR(45) NULL,
@@ -231,9 +225,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Pedido_gerado`
+-- Table `Pedido_gerado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Pedido_gerado` (
+CREATE TABLE IF NOT EXISTS `Pedido_gerado` (
   `Pedido_idPedido` INT NOT NULL,
   `Responsável_idResponsável` INT NOT NULL,
   `Setor responsável` VARCHAR(45) NULL DEFAULT 'Help desk',
@@ -244,21 +238,21 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Pedido_gerado` (
   INDEX `fk_Pedido_has_Responsável_Pedido1_idx` (`Pedido_idPedido` ASC) VISIBLE,
   CONSTRAINT `fk_Pedido_has_Responsável_Pedido1`
     FOREIGN KEY (`Pedido_idPedido`)
-    REFERENCES `mydb`.`Pedido` (`idPedido`)
+    REFERENCES `Pedido` (`idPedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Pedido_has_Responsável_Responsável1`
     FOREIGN KEY (`Responsável_idResponsável`)
-    REFERENCES `mydb`.`Responsável` (`idResponsável`)
+    REFERENCES `Responsável` (`idResponsável`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Ordem de Serviço`
+-- Table `Ordem de Serviço`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Ordem de Serviço` (
+CREATE TABLE IF NOT EXISTS `Ordem de Serviço` (
   `idOrdem de Serviço` INT NOT NULL,
   `Descrição` VARCHAR(45) NULL,
   `Prioridade` VARCHAR(45) NULL,
@@ -268,12 +262,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Ordem de Serviço` (
   INDEX `fk_Ordem de Serviço_Pedido_has_Responsável1_idx` (`Pedido_has_Responsável_Pedido_idPedido` ASC, `Pedido_has_Responsável_Responsável_idResponsável` ASC) VISIBLE,
   CONSTRAINT `fk_Ordem de Serviço_Pedido_has_Responsável1`
     FOREIGN KEY (`Pedido_has_Responsável_Pedido_idPedido` , `Pedido_has_Responsável_Responsável_idResponsável`)
-    REFERENCES `mydb`.`Pedido_gerado` (`Pedido_idPedido` , `Responsável_idResponsável`)
+    REFERENCES `Pedido_gerado` (`Pedido_idPedido` , `Responsável_idResponsável`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
